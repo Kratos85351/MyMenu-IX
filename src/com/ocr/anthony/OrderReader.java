@@ -14,14 +14,20 @@ public class OrderReader {
     }
 
     public int giveCnumber(List cLine, int i, int j){
-        return Integer.parseInt(cLine.get(i).toString().split(",")[j]);
+        try{
+            return Integer.parseInt(((String)cLine.get(i)).split(",")[j]);
+        }catch(NumberFormatException e) {
+            System.out.println("Bad input for parseInt");
+        }
+        return 0;
     }
 
+
     public void read(){
-            String[] menus = {"poulet", "boeuf", "végétarien"};
-            String[] responsesAllSide = {"légumes frais", "frites", "riz"};
-            String[] responsesOnlyRice = {"riz", "pas de riz"};
-            String[] responsesDrink = {"eau plate", "eau gazeuse", "soda"};
+        String[] menus = {"poulet", "boeuf", "végétarien"};
+        String[] responsesAllSide = {"légumes frais", "frites", "riz"};
+        String[] responsesOnlyRice = {"riz", "pas de riz"};
+        String[] responsesDrink = {"eau plate", "eau gazeuse", "soda"};
 
         Path rPath = Paths.get("order.csv");
         List commandLine = null;
@@ -33,20 +39,21 @@ public class OrderReader {
         }
 
         for (int i = 1; i<commandLine.size(); i++){
-        switch(giveCnumber(commandLine, i, 0)) {
-            case 1:
-                System.out.println(menus[giveCnumber(commandLine, i, 0)] + " avec " + responsesAllSide[giveCnumber(commandLine, i, 1 )] + " et " +responsesDrink[giveCnumber(commandLine, i, 2)] );
-                break;
-                case 2:
-                    System.out.println(menus[giveCnumber(commandLine, i,0)] + " avec " + responsesAllSide[giveCnumber(commandLine, i, 1)]);
+            switch(giveCnumber(commandLine, i, 0)) {
+                case 1:
+                    System.out.println("Menu " +menus[giveCnumber(commandLine, i, 0)-1] + " avec " + responsesAllSide[giveCnumber(commandLine, i, 1 )-1] + " et " +responsesDrink[giveCnumber(commandLine, i, 2)-1] );
                     break;
-                    case 3:
-                        System.out.println(menus[giveCnumber(commandLine, i,0)] + " avec " + responsesOnlyRice[giveCnumber(commandLine, i, 1)] + " et " + responsesDrink[giveCnumber(commandLine, i, 2)] );
-                        break;
+                case 2:
+                    System.out.println("Menu " +menus[giveCnumber(commandLine, i,0)-1] + " avec " + responsesAllSide[giveCnumber(commandLine, i, 1)-1]);
+                    break;
+                case 3:
+                    System.out.println("Menu " + menus[giveCnumber(commandLine, i,0)-1] + " avec " + responsesOnlyRice[giveCnumber(commandLine, i, 1)-1] + " et " + responsesDrink[giveCnumber(commandLine, i, 2)-1] );
+                    break;
 
-            default:
-                System.out.println("Hummmmmmmmmmm!");
-                }
+                default:
+                    System.out.println("No more orders!");
+                    break;
+            }
         }
     }
 }
